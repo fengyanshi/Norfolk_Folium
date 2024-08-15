@@ -14,19 +14,24 @@ from folium.plugins import MousePosition
 
 # In[13]:
 
-
-flood_NF=os.path.join('../saved_images','SLR_1.3m.png')
-hmax_NF=os.path.join('../saved_images','SLR_1.3m.png')
+flood_NF_0=os.path.join('../saved_images','Baseline.png')
+flood_NF=os.path.join('../saved_images','STW_54nm.png')
+flood_NF_1=os.path.join('../saved_images','STW_96nm.png')
+flood_NF_2=os.path.join('../saved_images','STW_138nm.png')
 #flood_PR=os.path.join('/Users/fengyanshi15/work/NTHMP/Flood/VB_2','PR_flood.png')
 #flood_CVV80=os.path.join('/Users/fengyanshi15/work/NTHMP/Flood/VB_2','CVV80_flood.png')
 #flood_COMB=os.path.join('/Users/fengyanshi15/work/NTHMP/Flood/VB_2','COMB_flood.png')
-#fld_bar=os.path.join('/Users/fengyanshi15/work/NTHMP/colorbar','Colorbar_0_1.png')
+fld_bar=os.path.join('../saved_images','colorbar.png')
 
 m=folium.Map([36.95,-76.291],zoom_start=14.2,control_scale=True)
+
+map_title = "Scenarios: Shift Track to West"
+title_html = f'<h2 style="position:absolute;z-index:100000;left:5vw" >{map_title}</h2>'
+m.get_root().html.add_child(folium.Element(title_html))
+
 img1=folium.raster_layers.ImageOverlay(
-    name='Flood Area',
+    name='STW_54nm',
     image=flood_NF,
-#     bounds=[[36.461,-76.211],[36.660722,-75.811278]],
     bounds=[[36.930,-76.34],[36.970,-76.245]],
     opacity=0.7,
     interactive=True,
@@ -37,8 +42,8 @@ img1=folium.raster_layers.ImageOverlay(
 img1.add_to(m)
 
 img2=folium.raster_layers.ImageOverlay(
-    name='Max Elevation',
-    image=hmax_NF,
+    name='STW_96nm',
+    image=flood_NF_1,
     bounds=[[36.930,-76.34],[36.970,-76.245]],
     opacity=0.7,
     interactive=True,
@@ -49,18 +54,48 @@ img2=folium.raster_layers.ImageOverlay(
 
 img2.add_to(m)
 
-#fld_icon=CustomIcon(
-#     fld_bar,
-#     icon_size=(80,250),
-#     icon_anchor=(40,125)
-# )
-#fld_marker=folium.Marker(
-#     location=[36.5609,-75.811278],
-#     icon=fld_icon
-# )
-#m.add_child(fld_marker)
+img3=folium.raster_layers.ImageOverlay(
+    name='STW_138nm',
+    image=flood_NF_2,
+    bounds=[[36.930,-76.34],[36.970,-76.245]],
+    opacity=0.7,
+    interactive=True,
+    cross_origin=False,
+    zindex=1,
+    show=False,
+)
 
-#FloatImage(fld_bar,bottom=0,left=0).add_to(m)
+img3.add_to(m)
+
+# baseline
+
+img0=folium.raster_layers.ImageOverlay(
+    name='Baseline, Irene',
+    image=flood_NF_0,
+    bounds=[[36.930,-76.34],[36.970,-76.245]],
+    opacity=0.7,
+    interactive=True,
+    cross_origin=False,
+    zindex=1,
+    show=False,
+)
+
+img0.add_to(m)
+
+# endbaseline
+
+fld_icon=CustomIcon(
+     fld_bar,
+     icon_size=(2,12),
+     icon_anchor=(20,125)
+ )
+fld_marker=folium.Marker(
+     location=[36.5609,-75.811278],
+     icon=fld_icon
+ )
+m.add_child(fld_marker)
+
+FloatImage(fld_bar,bottom=5,left=1).add_to(m)
 
 folium.LayerControl().add_to(m)
 
@@ -94,6 +129,6 @@ MousePosition(
     lng_formatter=formatter
 ).add_to(m)
 
-m.save(os.path.join('../saved_maps', 'SLR_1.3m.html'))
+m.save(os.path.join('../saved_maps', 'STW.html'))
 m
 

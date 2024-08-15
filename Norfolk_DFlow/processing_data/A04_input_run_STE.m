@@ -4,7 +4,7 @@ close all
 root_folder='/Users/fyshi/ESTCP_MAPS/IR_Web_Export/';
 output_folder='../saved_images/';
 
-cases={'SLR_1.3m','SLR_0.8m','SLR_0.4m'};
+cases={'STE_138nm','STE_96nm','STE_54nm'};
 
 k=3;
 
@@ -17,7 +17,7 @@ file_name_WL='WL_mesh2d_nFaces_mean_max.shp';
 
 WL=shaperead([root_folder cases{k} '/' file_name_WL]);
 Dep=shaperead([root_folder cases{k} '/' file_name_Dep]);
-Dep_ini=shaperead([root_folder cases{k} '/' file_name_Dep_ini]);
+Dep_ini=shaperead([root_folder baseline file_name_Dep_ini]);
 
 axy=[-76.34 -76.245 36.930 36.970];
 %axy=load('dflow_block.txt');
